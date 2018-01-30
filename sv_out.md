@@ -1,4 +1,5 @@
-Here is the result from an exercise:
+# Supervision Grammar
+Output of grammar from supervision.
 
 ```python
 FIRST
@@ -21,23 +22,23 @@ FIRST
  'int': set(['int']),
  'ref': set(['ref'])}
 FOLLOW
-{'$': set([]),
- '(': set(['(', ')', 'bool', 'int']),
- ')': set([]),
- '*': set(['(', 'bool', 'int']),
+{'$': set(['$']),
+ '(': set(['(']),
+ ')': set([')']),
+ '*': set(['*']),
  '+': set(['(', '+', 'bool', 'int']),
- '->': set(['(', 'bool', 'int']),
- 'A': set(['$', ')']),
- 'B': set(['->']),
- 'B_': set([]),
- 'C': set(['+', '->']),
- 'C_': set([]),
- 'D': set(['*', '+', '->']),
- 'D_': set([]),
- 'E': set(['*', '+', '->', 'ref']),
+ '->': set(['->']),
+ 'A': set(['(', 'bool', 'int']),
+ 'B': set(['(', 'bool', 'int']),
+ 'B_': set(['+']),
+ 'C': set(['(', '+', 'bool', 'int']),
+ 'C_': set(['*']),
+ 'D': set(['(', '*', '+', 'bool', 'int']),
+ 'D_': set(['ref']),
+ 'E': set(['(', '*', '+', 'bool', 'int', 'ref']),
  'S': set([]),
- 'bool': set([]),
- 'int': set([]),
+ 'bool': set(['bool']),
+ 'int': set(['int']),
  'ref': set(['ref'])}
 NULLABLE
 {'$': False,
@@ -81,7 +82,7 @@ Predictive Parse Table
         '(': [],
         ')': [],
         '*': [],
-        '+': [['+', 'C', 'B_']],
+        '+': [['+', 'C', 'B_'], []],
         '->': [],
         'bool': [],
         'int': [],
@@ -98,7 +99,7 @@ Predictive Parse Table
  'C_': {'$': [],
         '(': [],
         ')': [],
-        '*': [['*', 'D']],
+        '*': [['*', 'D'], []],
         '+': [],
         '->': [],
         'bool': [],
@@ -121,7 +122,7 @@ Predictive Parse Table
         '->': [],
         'bool': [],
         'int': [],
-        'ref': [['ref', 'D_']]},
+        'ref': [['ref', 'D_'], []]},
  'E': {'$': [],
        '(': [['(', ')'], ['(', 'A', ')']],
        ')': [],
