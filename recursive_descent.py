@@ -23,7 +23,7 @@ var1["D"] = [["E", "D_"]]
 var1["D_"]= [["ref", "D_"], []]
 var1["E"] = [["bool"], ["int"], ["(", ")"], ["(", "A", ")"]]
 
-(first, follow, nullable) = compute_ffn(var1)
+(first, follow, nullable) = compute_ffn(var)
 
 pp = pprint.PrettyPrinter(depth=6)
 print("FIRST")
@@ -36,5 +36,5 @@ print("NULLABLE")
 pp.pprint(nullable)
 
 print("Predictive Parse Table")
-pp.pprint(compute_pp(var1, first, follow, nullable))
+pp.pprint(compute_pp(var, first, follow, nullable))
 

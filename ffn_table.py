@@ -33,7 +33,6 @@ def compute_ffn(var):
 
     flag = True
     while flag:
-        # print("RUN")
         flag = False
         for key in var:
             for deriv in var[key]:
