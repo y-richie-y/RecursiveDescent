@@ -49,7 +49,7 @@ def compute_ffn(var):
                 
                 k = len(deriv)
                 for i in range(k):
-                    for j in range(i+1, k):
+                    for j in range(i, k):
                         # rule 1
                         prev_len = len(first[key])
 
@@ -62,21 +62,22 @@ def compute_ffn(var):
 
                         flag |= prev_len != len(first[key])
                         # rule 2
-                        prev_len = len(follow[key])
+                        prev_len = len(follow[deriv[i]])
 
                         all_nullable = True
-                        for l in range(i+1, k):
+                        for l in range(i, k):
                             all_nullable &= (deriv[i-1] in non_term and nullable[deriv[i-1]])
                         
                         if all_nullable:
                             follow[deriv[i]] |= follow[key]
 
+                        # rule 3
                         all_nullable = True
-                        for l in range(i+1, j):
+                        for l in range(i, j):
                             all_nullable &= (deriv[i-1] in non_term and nullable[deriv[i-1]])
                         
                         if all_nullable:
                             follow[deriv[i]] |= first[deriv[j]]
 
-                        flag |= prev_len != len(follow[key])
+                        flag |= prev_len != len(follow[deriv[i]])
     return (first, follow, nullable)
