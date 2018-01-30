@@ -26,11 +26,6 @@ def compute_ffn(var):
         follow[key] = set()
         nullable[key] = False
 
-    for key in var:
-        for deriv in var[key]:
-            if len(deriv) > 0 and deriv[0] not in non_term:
-                first[key].add(deriv[0])
-
     flag = True
     while flag:
         flag = False
