@@ -25,6 +25,8 @@ def compute_ffn(var):
         first[key].add(key)
         follow[key] = set()
         nullable[key] = False
+    
+    nullable[""] = True
 
     flag = True
     while flag:
@@ -44,32 +46,33 @@ def compute_ffn(var):
                 
                 k = len(deriv)
                 for i in range(k):
-                    for j in range(i, k):
-                        # rule 1
-                        prev_len = len(first[key])
+                    # rule 1
+                    prev_len = len(first[key])
 
-                        all_nullable = True
-                        for l in range(i):
-                            all_nullable &= (deriv[i-1] in non_term and nullable[deriv[i-1]])
-                        
-                        if all_nullable:
-                            first[key] |= first[deriv[i]]
+                    all_nullable = True
+                    for l in range(i):
+                        all_nullable &= (deriv[l] in non_term and nullable[deriv[l]])
 
-                        flag |= prev_len != len(first[key])
-                        # rule 2
-                        prev_len = len(follow[deriv[i]])
+                    if all_nullable:
+                        first[key] |= first[deriv[i]]
 
-                        all_nullable = True
-                        for l in range(i, k):
-                            all_nullable &= (deriv[i-1] in non_term and nullable[deriv[i-1]])
-                        
-                        if all_nullable:
-                            follow[deriv[i]] |= follow[key]
+                    flag |= prev_len != len(first[key])
 
+                    # rule 2
+                    prev_len = len(follow[deriv[i]])
+
+                    all_nullable = True
+                    for l in range(i+1, k):
+                        all_nullable &= (nullable[deriv[l]])
+                    
+                    if all_nullable:
+                        follow[deriv[i]] |= follow[key]
+
+                    for j in range(i+1, k):
                         # rule 3
                         all_nullable = True
-                        for l in range(i, j):
-                            all_nullable &= (deriv[i-1] in non_term and nullable[deriv[i-1]])
+                        for l in range(i+1, j):
+                            all_nullable &= (nullable[deriv[l]])
                         
                         if all_nullable:
                             follow[deriv[i]] |= first[deriv[j]]
